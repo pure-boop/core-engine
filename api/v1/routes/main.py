@@ -9,18 +9,10 @@ from core_engine.utils import setup_logging, load_module
 from core_engine.exceptions import ConfigurationError, ModuleLoadError
 
 def main():
-    """
-    Main entry point for the core-engine application.
-    Handles argument parsing, configuration loading, and module execution.
-    """
     parser = argparse.ArgumentParser(description="Core Engine Application")
-    parser.add_argument("-c", "--config", dest="config_path",
-                        default="config.json", help="Path to the configuration file")
-    parser.add_argument("-m", "--module", dest="module_name",
-                        required=True, help="Name of the module to execute")
-    parser.add_argument("-v", "--verbosity", dest="verbosity",
-                        default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-                        help="Logging verbosity level")
+    parser.add_argument("-c", "--config", dest="config_path", default="config.json", help="Path to the configuration file")
+    parser.add_argument("-m", "--module", dest="module_name", required=True, help="Name of the module to execute")
+    parser.add_argument("-v", "--verbosity", dest="verbosity", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], help="Logging verbosity level")
 
     args = parser.parse_args()
 
@@ -46,21 +38,17 @@ def main():
                 module.run()
             else:
                 logging.error(f"Module '{args.module_name}' does not have a 'run' function.")
-                sys.exit(1) # Exit with an error code
-
+                sys.exit(1)  # Exit with an error code
         except ModuleLoadError as e:
             logging.error(f"Failed to load module '{args.module_name}': {e}")
-            sys.exit(1) # Exit with an error code
+            sys.exit(1)  # Exit with an error code
         except Exception as e:
             logging.exception(f"An unexpected error occurred during module execution: {e}")
-            sys.exit(1) # Exit with an error code
+            sys.exit(1)  # Exit with an error code
 
     except ConfigurationError as e:
         logging.error(f"Configuration error: {e}")
-        sys.exit(1) #Exit with an error code
+        sys.exit(1)  # Exit with an error code
     except Exception as e:
         logging.exception(f"An unexpected error occurred: {e}")
-        sys.exit(1) # Exit with an error code
-
-if __name__ == "__main__":
-    main()
+        sys.exit(1)  # Exit with an error code
